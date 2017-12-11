@@ -1,0 +1,779 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UserDialog</class>
+ <widget class="QDialog" name="UserDialog">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1105</width>
+    <height>724</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Client card</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="saveButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="removeButton">
+       <property name="text">
+        <string>Remove user</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="mainTab">
+      <attribute name="title">
+       <string>Main</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="20" column="2">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Exclusion Decision</string>
+         </property>
+         <property name="buddy">
+          <cstring>exclusionDecision</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="statusL">
+         <property name="text">
+          <string>Client &amp;status</string>
+         </property>
+         <property name="buddy">
+          <cstring>userStatus</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="3">
+        <widget class="QDateEdit" name="protocolDate">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+         <property name="date">
+          <date>
+           <year>1900</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="2">
+        <widget class="QLabel" name="protocolDateL">
+         <property name="text">
+          <string>Protocol date</string>
+         </property>
+         <property name="buddy">
+          <cstring>protocolDate</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="senderDepL">
+         <property name="toolTip">
+          <string>Department who send user</string>
+         </property>
+         <property name="text">
+          <string>Sender department</string>
+         </property>
+         <property name="buddy">
+          <cstring>senderDeparment</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QDateEdit" name="birthday">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="acceptDrops">
+          <bool>false</bool>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+         <property name="date">
+          <date>
+           <year>1900</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="firstName"/>
+       </item>
+       <item row="4" column="2" colspan="2">
+        <widget class="QLabel" name="issueDepL">
+         <property name="text">
+          <string>Issue &amp;department</string>
+         </property>
+         <property name="buddy">
+          <cstring>passportDepartment</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="contacts">
+         <property name="text">
+          <string>Contact user</string>
+         </property>
+         <property name="buddy">
+          <cstring>contactUser</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="passportSeria">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="inputMethodHints">
+          <set>Qt::ImhDigitsOnly</set>
+         </property>
+         <property name="maxLength">
+          <number>4</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QLabel" name="passportIssueL">
+         <property name="text">
+          <string>&amp;Issue date</string>
+         </property>
+         <property name="buddy">
+          <cstring>passportIssue</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QLineEdit" name="passportNumber">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="inputMethodHints">
+          <set>Qt::ImhDigitsOnly</set>
+         </property>
+         <property name="maxLength">
+          <number>11</number>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Current place</string>
+         </property>
+         <property name="buddy">
+          <cstring>currenPlace</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="firstNameL">
+         <property name="text">
+          <string>&amp;Firts name</string>
+         </property>
+         <property name="buddy">
+          <cstring>firstName</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="middleNameL">
+         <property name="text">
+          <string>&amp;Middle name</string>
+         </property>
+         <property name="buddy">
+          <cstring>middleName</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="2">
+        <widget class="QLabel" name="regL">
+         <property name="text">
+          <string>&amp;Register date</string>
+         </property>
+         <property name="buddy">
+          <cstring>registerDate</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
+        <widget class="QDateEdit" name="passportIssue">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+         <property name="date">
+          <date>
+           <year>1900</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0" colspan="2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Additional info</string>
+         </property>
+         <property name="buddy">
+          <cstring>additionalInfo</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="3">
+        <widget class="QDateEdit" name="leaveDate">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+         <property name="date">
+          <date>
+           <year>1900</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="2">
+        <widget class="QLabel" name="occupationL">
+         <property name="text">
+          <string>&amp;Occupation date</string>
+         </property>
+         <property name="buddy">
+          <cstring>occupationDate</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2" rowspan="4" colspan="2">
+        <widget class="QTextEdit" name="passportDepartment">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="acceptRichText">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="3">
+        <widget class="QDateEdit" name="registerDate">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+         <property name="date">
+          <date>
+           <year>1900</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
+       </item>
+       <item row="21" column="3">
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>77</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="21" column="2">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>77</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="11" column="0" rowspan="11" colspan="2">
+        <widget class="QTextEdit" name="additionalInfo">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="acceptRichText">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="3">
+        <widget class="QDateEdit" name="occupationDate">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+         <property name="date">
+          <date>
+           <year>1900</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="2">
+        <widget class="QLabel" name="leaveL">
+         <property name="text">
+          <string>Leave date</string>
+         </property>
+         <property name="buddy">
+          <cstring>leaveDate</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="lastNameL">
+         <property name="text">
+          <string>&amp;Last name</string>
+         </property>
+         <property name="buddy">
+          <cstring>lastName</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lastName"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="userIdL">
+         <property name="text">
+          <string>#</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="titleId">
+         <property name="text">
+          <string>Card #</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="senderDeparment"/>
+       </item>
+       <item row="9" column="1">
+        <widget class="QLineEdit" name="contactUser"/>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="passportL">
+         <property name="text">
+          <string>&amp;Passport</string>
+         </property>
+         <property name="buddy">
+          <cstring>passportSeria</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QLineEdit" name="currenPlace"/>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="middleName"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="birthdayL">
+         <property name="text">
+          <string>&amp;Birthday</string>
+         </property>
+         <property name="buddy">
+          <cstring>birthday</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="3">
+        <widget class="QLineEdit" name="commissionProtocol"/>
+       </item>
+       <item row="6" column="1">
+        <widget class="QComboBox" name="userStatus"/>
+       </item>
+       <item row="13" column="2">
+        <widget class="QLabel" name="protocolL">
+         <property name="text">
+          <string>Commission protocol</string>
+         </property>
+         <property name="buddy">
+          <cstring>commissionProtocol</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="3">
+        <widget class="QDateEdit" name="exclusionDate">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+         <property name="date">
+          <date>
+           <year>1900</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="3">
+        <widget class="QLineEdit" name="commissionDecision"/>
+       </item>
+       <item row="16" column="2">
+        <widget class="QLabel" name="commisionDecisionL">
+         <property name="text">
+          <string>Commision decision</string>
+         </property>
+         <property name="buddy">
+          <cstring>commissionDecision</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="2">
+        <widget class="QLabel" name="exclusionDateL">
+         <property name="text">
+          <string>Exclusuion date</string>
+         </property>
+         <property name="buddy">
+          <cstring>exclusionDate</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="20" column="3">
+        <widget class="QLineEdit" name="exclusionDecision"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="medTab">
+      <attribute name="title">
+       <string>Medicine</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QGroupBox" name="medDocsBox">
+         <property name="title">
+          <string>Medicine documents</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QTableView" name="medDocumentsList"/>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="medAdd">
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="medRemove">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Remove</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="medInfoBoc">
+         <property name="title">
+          <string>Medicine information</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0" rowspan="4">
+           <widget class="QTextEdit" name="medInfoEdit">
+            <property name="acceptRichText">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Self-ability</string>
+            </property>
+            <property name="buddy">
+             <cstring>selfAbility</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QComboBox" name="selfAbility"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Disability</string>
+            </property>
+            <property name="buddy">
+             <cstring>disability</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QComboBox" name="disability"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Work compenece</string>
+            </property>
+            <property name="buddy">
+             <cstring>workCompetence</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QComboBox" name="workCompetence"/>
+          </item>
+          <item row="3" column="1">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>162</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="3" column="2">
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>162</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="SocTab">
+      <attribute name="title">
+       <string>Social</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QGroupBox" name="SocDocsBox">
+         <property name="title">
+          <string>Social documents</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QTableView" name="socDocumentsList"/>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="socAdd">
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="SocRemove">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Remove</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Social information</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QTextEdit" name="socInfoEdit"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="resultL">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>lastName</tabstop>
+  <tabstop>firstName</tabstop>
+  <tabstop>middleName</tabstop>
+  <tabstop>birthday</tabstop>
+  <tabstop>senderDeparment</tabstop>
+  <tabstop>currenPlace</tabstop>
+  <tabstop>contactUser</tabstop>
+  <tabstop>additionalInfo</tabstop>
+  <tabstop>passportSeria</tabstop>
+  <tabstop>passportNumber</tabstop>
+  <tabstop>passportIssue</tabstop>
+  <tabstop>passportDepartment</tabstop>
+  <tabstop>registerDate</tabstop>
+  <tabstop>occupationDate</tabstop>
+  <tabstop>leaveDate</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
