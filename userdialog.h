@@ -14,6 +14,8 @@ class QDataWidgetMapper;
 class QSqlError;
 class QTextEdit;
 class QLineEdit;
+class QString;
+class QStringList;
 
 class UserDialog : public QDialog
 {
@@ -21,14 +23,15 @@ class UserDialog : public QDialog
 
 public:
     explicit UserDialog(QWidget *parent = 0, uint userID = 0);
+    static QStringList getUserStatusList();
     ~UserDialog();
 
 protected:
-    QSqlRelationalTableModel *mainModel = NULL;
-    QSqlRelationalTableModel *medModel = NULL;
-    QSqlRelationalTableModel *socModel = NULL;
+    QSqlRelationalTableModel *mainModel = nullptr;
+    QSqlRelationalTableModel *medModel = nullptr;
+    QSqlRelationalTableModel *socModel = nullptr;
 
-    QDataWidgetMapper *mainMapper = NULL;
+    QDataWidgetMapper *mainMapper = nullptr;
 
     uint userID = 0;
 
@@ -48,15 +51,19 @@ protected:
     int indexWorkCompetence;
 
     // med soc folder indexes
-    int indexDocCategory;
+    int indexDocName;
     int indexDocType;
     int indexDocUserID;
+
+    QString lastStatusId;
 
     void showError(const QSqlError &err);
     void trimInput(QLineEdit *edit);
     void trimInput(QTextEdit *edit);
     void trimInputs();
     void setNullEmptyData();
+    void addUserInQueue();
+    void removeUserFromQueue();
 
     bool saveMedDocuments();
 

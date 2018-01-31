@@ -1,16 +1,18 @@
-#include "userdialog.h"
-#include "ui_userdialog.h"
-
 #include <QVariant>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QSqlRecord>
 #include <QSqlTableModel>
 #include <QSqlRelationalTableModel>
+#include <QSqlRelationalDelegate>
 #include <QDataWidgetMapper>
 #include <QMessageBox>
-#include <QSqlRelationalDelegate>
 #include <QRegularExpression>
-#include <QSqlRecord>
+#include <QStringList>
+#include <QCompleter>
+
+#include "userdialog.h"
+#include "ui_userdialog.h"
 
 UserDialog::UserDialog(QWidget *parent, uint userID) :
     QDialog(parent),
@@ -18,7 +20,6 @@ UserDialog::UserDialog(QWidget *parent, uint userID) :
 {
     ui->setupUi(this);
     this->userID = userID;
-
     QSqlDatabase db = QSqlDatabase::database("main");
 
     if (!db.isOpen())
@@ -40,12 +41,11 @@ UserDialog::UserDialog(QWidget *parent, uint userID) :
 
     // Set relation with user status
     indexUserID = mainModel->fieldIndex("id");
-    indexUserStatus = mainModel->fieldIndex("UserStatusID");
+    indexUserStatus = mainModel->fieldIndex("UserStatus");
     indexSelfAbility = mainModel->fieldIndex("SeflServiceAbility");
     indexDisability = mainModel->fieldIndex("Disability");
     indexWorkCompetence = mainModel->fieldIndex("WorkCompetence");
 
-    mainModel->setRelation(indexUserStatus, QSqlRelation("user_status", "status_id", "title"));
     mainModel->setRelation(indexSelfAbility, QSqlRelation("user_selfability",
                                                           "ability_id", "ability"));
     mainModel->setRelation(indexDisability, QSqlRelation("user_disability",
@@ -60,11 +60,8 @@ UserDialog::UserDialog(QWidget *parent, uint userID) :
         return;
     }
 
-    // Init userStatus combobox
-    QSqlTableModel *userStatusModel = mainModel->relationModel(indexUserStatus);
-    ui->userStatus->setModel(userStatusModel);
-    ui->userStatus->setModelColumn(userStatusModel->fieldIndex("title"));
-    ui->userStatus->setItemDelegate(new QSqlRelationalDelegate(ui->userStatus));
+    ui->userStatus->addItem("");
+    ui->userStatus->addItems(getUserStatusList());
 
     QSqlTableModel *userSelfAbilityModel = mainModel->relationModel(indexSelfAbility);
     ui->selfAbility->setModel(userSelfAbilityModel);
@@ -149,9 +146,14 @@ UserDialog::UserDialog(QWidget *parent, uint userID) :
         ui->medAdd->setDisabled(true);
         ui->socDocumentsList->setDisabled(true);
         ui->socAdd->setDisabled(true);
-
     }
     mainMapper->toFirst();
+
+    if (userID)
+    {
+        // Store last user status before change
+        lastStatusId = mainModel->record(0).value(indexUserStatus).toString();
+    }
 
     ui->userIdL->setText(QVariant(userID).toString());
 
@@ -169,19 +171,19 @@ UserDialog::UserDialog(QWidget *parent, uint userID) :
 
 UserDialog::~UserDialog()
 {
-    if (mainMapper != NULL)
+    if (mainMapper != nullptr)
     {
         delete mainMapper;
     }
-    if (mainModel != NULL)
+    if (mainModel != nullptr)
     {
         delete mainModel;
     }
-    if (medModel != NULL)
+    if (medModel != nullptr)
     {
         delete medModel;
     }
-    if (socModel != NULL)
+    if (socModel != nullptr)
     {
         delete socModel;
     }
@@ -278,6 +280,7 @@ void UserDialog::saveUser()
     ui->resultL->setText(QString(""));
 
     trimInputs();
+    // Fill model record from widgets
     bool mapper = mainMapper->submit();
     setNullEmptyData();
 
@@ -288,13 +291,36 @@ void UserDialog::saveUser()
         ui->resultL->setText(error);
         return;
     }
+
+    bool removeFromQueue = false;
+    bool addToQueue = false;
+
+    QString newStatusId = mainModel->record(0).value(indexUserStatus).toString();
+
+    // On user status change
+    if (lastStatusId != newStatusId)
+    {
+        removeFromQueue = lastStatusId.compare(tr("in_queue")) == 0;
+        addToQueue = newStatusId.compare(tr("in_queue")) == 0;
+    }
+
+    // Save user main info to database
     if (!mainModel->submitAll())
     {
         QString error = mainModel->lastError().text();
         ui->resultL->setText(error);
         return;
     }
+    if (userID && removeFromQueue)
+    {
+        removeUserFromQueue();
+    }
+    if (addToQueue)
+    {
+        addUserInQueue();
+    }
 
+    // Save user med documnets to database
     if (!saveMedDocuments())
     {
         return;
@@ -314,10 +340,14 @@ bool UserDialog::saveMedDocuments()
     // Remove empty rows, where category not set
     for (int i = medModel->rowCount() - 1; i >=0; --i)
     {
-        QModelIndex index = medModel->index(i, indexDocCategory);
-        if (medModel->data(index).isNull())
+        QModelIndex index = medModel->index(i, indexDocName);
+        if (medModel->data(index).isNull() || medModel->data(index).toString().trimmed().isEmpty())
         {
             medModel->removeRow(i);
+        }
+        else
+        {
+            medModel->setData(index, medModel->data(index).toString().trimmed());
         }
     }
     if (!medModel->submitAll())
@@ -348,7 +378,7 @@ void UserDialog::removeUser()
 void UserDialog::initMedFolder(int folderIndex)
 {
     // Do nothing if model initialised
-    if (!userID || folderIndex != 1 || medModel != NULL)
+    if (!userID || folderIndex != 1 || medModel != nullptr)
     {
         return;
     }
@@ -367,10 +397,7 @@ void UserDialog::initMedFolder(int folderIndex)
     int indexId = medModel->fieldIndex("id");
     indexDocUserID = medModel->fieldIndex("user_id");
     indexDocType = medModel->fieldIndex("type");
-    indexDocCategory = medModel->fieldIndex("category_id");
-
-    medModel->setRelation(indexDocCategory, QSqlRelation("med_doc_category",
-                                                         "category_id", "category"));
+    indexDocName = medModel->fieldIndex("name");
 
     // Try to get data
     if (!medModel->select())
@@ -380,8 +407,12 @@ void UserDialog::initMedFolder(int folderIndex)
         ui->medRemove->setDisabled(true);
         return;
     }
-    medModel->setHeaderData(indexDocCategory, Qt::Horizontal, tr("category"));
-    medModel->setHeaderData(medModel->fieldIndex("name"), Qt::Horizontal, tr("name"));
+
+    QCompleter *completer = new QCompleter(medModel, this);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setCompletionColumn(indexDocName);
+
+    medModel->setHeaderData(indexDocName, Qt::Horizontal, tr("name"));
     medModel->setHeaderData(medModel->fieldIndex("number"), Qt::Horizontal, tr("number"));
     medModel->setHeaderData(medModel->fieldIndex("register_date"), Qt::Horizontal, tr("register date"));
     medModel->setHeaderData(medModel->fieldIndex("expire_date"), Qt::Horizontal, tr("expire date"));
@@ -407,7 +438,7 @@ void UserDialog::initMedFolder(int folderIndex)
 void UserDialog::initSocFolder(int folderIndex)
 {
     // Do nothing if model initialised
-    if (folderIndex != 2 || socModel != NULL)
+    if (folderIndex != 2 || socModel != nullptr)
     {
         return;
     }
@@ -450,4 +481,93 @@ void UserDialog::removeMedDocument()
 {
     QModelIndex index =  ui->medDocumentsList->currentIndex();
     medModel->removeRow(index.row());
+}
+
+
+
+void UserDialog::addUserInQueue()
+{
+    QSqlDatabase db = QSqlDatabase::database("main");
+    if (!db.isOpen())
+    {
+        QMessageBox::critical(this, tr("Connecntion error"), tr("Database connection lost"));
+        return;
+    }
+
+    QSqlQuery q("SELECT count(*)+1 FROM user_queue", db);
+    int queue_id = 0;
+    if (q.next())
+    {
+        queue_id = q.value(0).toInt();
+    }
+
+    if (!userID)
+    {
+        q.exec(QString("INSERT INTO user_queue SET queue_id = %1,"
+                       "user_id = (SELECT MAX(id) FROM user_main)").arg(queue_id));
+
+        QSqlError err = q.lastError();
+        if (err.isValid())
+        {
+            QMessageBox::critical(this, "exec", err.text());
+        }
+    }
+    else
+    {
+        q.exec(QString("INSERT INTO user_queue SET queue_id = %1,"
+                       "user_id = %2").arg(queue_id).arg(userID));
+        QSqlError err = q.lastError();
+        if (err.isValid())
+        {
+            QMessageBox::critical(this, "exec", err.text());
+        }
+    }
+
+}
+
+
+void UserDialog::removeUserFromQueue()
+{
+    QSqlDatabase db = QSqlDatabase::database("main");
+    if (!db.isOpen())
+    {
+        QMessageBox::critical(this, tr("Connecntion error"), tr("Database connection lost"));
+        return;
+    }
+
+    QSqlQuery q(QString("SELECT queue_id FROM user_queue WHERE user_id=%1").arg(userID), db);
+    int queue_id = 0;
+    if (q.next())
+    {
+        queue_id = q.value(0).toInt();
+    }
+    if (queue_id)
+    {
+        q.exec(QString("UPDATE user_queue SET queue_id = queue_id - 1 WHERE queue_id > %1").
+               arg(queue_id));
+    }
+    QSqlError err = q.lastError();
+    if (err.isValid())
+    {
+        QMessageBox::critical(this, "exec", err.text());
+    }
+
+    q.exec(QString("DELETE FROM user_queue WHERE user_id=%1").arg(userID));
+    err = q.lastError();
+    if (err.isValid())
+    {
+        QMessageBox::critical(this, "exec", err.text());
+    }
+}
+
+
+
+QStringList UserDialog::getUserStatusList()
+{
+    QStringList list;
+    list << tr("in_queue")
+         << tr("excluded")
+         << tr("accepted")
+         << tr("leave");
+    return list;
 }

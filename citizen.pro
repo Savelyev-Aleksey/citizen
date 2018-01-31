@@ -27,17 +27,20 @@ SOURCES += \
 		main.cpp \
 		mainwindow.cpp \
 	userdialog.cpp \
-    searchform.cpp
+    searchform.cpp \
+    userqueueform.cpp
 
 HEADERS += \
 		mainwindow.h \
 	userdialog.h \
-    searchform.h
+    searchform.h \
+    userqueueform.h
 
 FORMS += \
 		mainwindow.ui \
 	userdialog.ui \
-    searchform.ui
+    searchform.ui \
+    userqueueform.ui
 
 RESOURCES += \
 	main.qrc

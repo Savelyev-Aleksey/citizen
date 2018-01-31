@@ -142,7 +142,7 @@
       <item row="1" column="3" colspan="2">
        <widget class="QComboBox" name="statusCombo">
         <property name="enabled">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -207,17 +207,17 @@
   </connection>
   <connection>
    <sender>statusCheck</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>statusCombo</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>785</x>
-     <y>81</y>
+     <x>801</x>
+     <y>82</y>
     </hint>
     <hint type="destinationlabel">
-     <x>846</x>
-     <y>77</y>
+     <x>854</x>
+     <y>71</y>
     </hint>
    </hints>
   </connection>

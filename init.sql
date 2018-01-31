@@ -1,17 +1,3 @@
-CREATE TABLE `user_status` (
-	`id` VARCHAR(50) NOT NULL,
-	`title` VARCHAR(255) NOT NULL,
-	PRIMARY KEY (`id`),
-	UNIQUE INDEX `title` (`title`)
-)
-ENGINE=InnoDB
-;
-
-INSERT INTO `user_status` (`status_id`, `title`) VALUES ('in_query', 'В очереди');
-INSERT INTO `user_status` (`status_id`, `title`) VALUES ('excluded', 'Исключен');
-INSERT INTO `user_status` (`status_id`, `title`) VALUES ('accepted', 'На обслуживание');
-INSERT INTO `user_status` (`status_id`, `title`) VALUES ('leave', 'Выбыл');
-
 CREATE TABLE `user_selfability` (
 	`ability_id` VARCHAR(50) NOT NULL,
 	`ability` VARCHAR(255) NOT NULL,
@@ -84,7 +70,7 @@ CREATE TABLE `user_main` (
 	`PassportNumber` VARCHAR(12) NULL DEFAULT NULL,
 	`PassportIssueDate` DATE NULL DEFAULT NULL,
 	`PassportDepartment` VARCHAR(500) NULL DEFAULT NULL,
-	`UserStatusID` VARCHAR(50) NULL DEFAULT NULL,
+	`UserStatus` VARCHAR(255) NULL DEFAULT NULL,
 	`Created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`Updated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	`AdditionalInfo` TEXT NULL,
@@ -108,10 +94,21 @@ CREATE TABLE `user_main` (
 	INDEX `PassportIssueDate` (`PassportIssueDate`),
 	INDEX `BirthDay` (`Birthday`),
 	INDEX `FK_user_main_user_status` (`UserStatusID`),
-	CONSTRAINT `FK_user_main_user_status` FOREIGN KEY (`UserStatusID`) REFERENCES `user_status` (`status_id`)
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 AUTO_INCREMENT=13
+;
+
+
+
+CREATE TABLE `user_queue` (
+	`queue_id` INT(11) UNSIGNED NOT NULL,
+	`user_id` INT(11) UNSIGNED NOT NULL,
+	INDEX `user_queue_id` (`user_id`),
+	CONSTRAINT `user_queue_id` FOREIGN KEY (`user_id`) REFERENCES `user_main` (`id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
 ;
 

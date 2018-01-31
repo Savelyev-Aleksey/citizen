@@ -1,13 +1,15 @@
-#include "searchform.h"
-#include "ui_searchform.h"
-#include "userdialog.h"
-
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlQueryModel>
 #include <QSqlTableModel>
 #include <QSqlError>
 #include <QStringList>
+#include <QMainWindow>
+
+#include "searchform.h"
+#include "ui_searchform.h"
+#include "userdialog.h"
+
 
 
 SearchForm::SearchForm(QWidget *parent) :
@@ -36,6 +38,8 @@ SearchForm::SearchForm(QWidget *parent) :
     indexRegisterDate = r.indexOf("RegisterDate");
     indexUserStatus = r.indexOf("UserStatus");
 
+    ui->statusCombo->addItems(UserDialog::getUserStatusList());
+
 
     searchModel->setHeaderData(indexFname, Qt::Horizontal, tr("First name"));
     searchModel->setHeaderData(indexLname, Qt::Horizontal, tr("Last name"));
@@ -44,14 +48,8 @@ SearchForm::SearchForm(QWidget *parent) :
     searchModel->setHeaderData(indexRegisterDate, Qt::Horizontal, tr("Register date"));
     searchModel->setHeaderData(indexUserStatus, Qt::Horizontal, tr("User status"));
 
-    statusModel = new QSqlTableModel(this);
-    statusModel->setTable("user_status");
-    statusModel->select();
-
-    ui->statusCombo->setModel(statusModel);
-    ui->statusCombo->setModelColumn(statusModel->fieldIndex("title"));
-
     ui->searchView->resizeColumnsToContents();
+
 
     connect(ui->searchView, SIGNAL(doubleClicked(const QModelIndex &)),
             this, SLOT(editUser(const QModelIndex &)));
@@ -74,11 +72,9 @@ SearchForm::~SearchForm()
 
 QString SearchForm::getQuery(QString where)
 {
-    QString select("SELECT id, LastName, FirstName, MiddleName, Birthday, RegisterDate,"
-                   "s.title UserStatus");
+    QString select("SELECT id, LastName, FirstName, MiddleName, Birthday, RegisterDate, UserStatus");
 
-    QString from(" FROM `user_main` m left join user_status s ON m.UserStatusID = s.status_id");
-
+    QString from(" FROM `user_main` m");
 
     QString order(" ORDER BY LastName, FirstName, MiddleName, Birthday");
 
@@ -135,9 +131,9 @@ void SearchForm::findUsers()
     {
         list.push_front(QString("Birthday=\"%1\"").arg(ui->birthday->date().toString("yyyy-MM-dd")));
     }
-    if (ui->statusCheck->isChecked() && ui->statusCombo->currentIndex() != -1)
+    if (ui->statusCheck->isChecked() && ui->statusCombo->currentText().compare("") != 0)
     {
-        list.push_front(QString("UserStatusID=\"%1\"").arg(ui->statusCombo->currentIndex()));
+        list.push_front(QString("UserStatus=\"%1\"").arg(ui->statusCombo->currentText()));
     }
 
     QString fname = ui->firstName->text().trimmed();
@@ -165,6 +161,10 @@ void SearchForm::findUsers()
     if (error.isValid())
     {
         ui->infoLabel->setText(error.text());
+    }
+    else
+    {
+        ui->infoLabel->setText(tr("Found: %1").arg(searchModel->rowCount()));
     }
 }
 

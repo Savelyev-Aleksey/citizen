@@ -1,11 +1,12 @@
+#include <QtSql>
+#include <QSettings>
+#include <QMessageBox>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "userdialog.h"
 #include "searchform.h"
-
-#include <QtSql>
-#include <QSettings>
-#include <QMessageBox>
+#include "userqueueform.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,8 +19,13 @@ MainWindow::MainWindow(QWidget *parent) :
         exit(1);
     }
 
-    SearchForm *form = new SearchForm(this);
-    this->setCentralWidget(form);
+    SearchForm *search = new SearchForm();
+
+    UserQueueForm *queue = new UserQueueForm();
+
+    ui->mainTabWidget->addTab(search, tr("Search"));
+    ui->mainTabWidget->addTab(queue, tr("Queue"));
+
 }
 
 

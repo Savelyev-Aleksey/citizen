@@ -21,7 +21,6 @@ public:
 
 protected:
     QSqlQueryModel *searchModel = nullptr;
-    QSqlTableModel *statusModel = nullptr;
 
     int indexId;
     int indexFname;
