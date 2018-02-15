@@ -11,8 +11,11 @@
 #include <QStringList>
 #include <QCompleter>
 
+#include "sqlconnection.h"
 #include "userdialog.h"
 #include "ui_userdialog.h"
+
+
 
 UserDialog::UserDialog(QWidget *parent, uint userID) :
     QDialog(parent),
@@ -20,12 +23,40 @@ UserDialog::UserDialog(QWidget *parent, uint userID) :
 {
     ui->setupUi(this);
     this->userID = userID;
-    QSqlDatabase db = QSqlDatabase::database("main");
 
+    if (!initMainModel(userID))
+    {
+        reject();
+    }
+    initComboboxes();
+    initWidgetMapper(userID);
+
+    if (userID)
+    {
+        // Store last user status before change
+        lastStatusId = mainModel->record(0).value(indexUserStatus).toString();
+    }
+
+    ui->userIdL->setText(QVariant(userID).toString());
+
+    connect(ui->saveButton, SIGNAL(clicked(bool)),
+            this, SLOT(saveUser()));
+
+    connect(ui->removeButton, SIGNAL(clicked(bool)),
+            this, SLOT(removeUser()));
+
+    connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(initMedFolder(int)));
+    connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(initSocFolder(int)));
+}
+
+
+
+bool UserDialog::initMainModel(uint userID)
+{
+    QSqlDatabase db = SqlConnection::mainConnection();
     if (!db.isOpen())
     {
-        QMessageBox::critical(this, tr("Connecntion error"), tr("Database connection lost"));
-        return;
+        return false;
     }
 
     // user model basic user information
@@ -38,13 +69,8 @@ UserDialog::UserDialog(QWidget *parent, uint userID) :
     {
         mainModel->setFilter(QString("id=%1").arg(userID));
     }
-
+    initIndexes();
     // Set relation with user status
-    indexUserID = mainModel->fieldIndex("id");
-    indexUserStatus = mainModel->fieldIndex("UserStatus");
-    indexSelfAbility = mainModel->fieldIndex("SeflServiceAbility");
-    indexDisability = mainModel->fieldIndex("Disability");
-    indexWorkCompetence = mainModel->fieldIndex("WorkCompetence");
 
     mainModel->setRelation(indexSelfAbility, QSqlRelation("user_selfability",
                                                           "ability_id", "ability"));
@@ -57,10 +83,40 @@ UserDialog::UserDialog(QWidget *parent, uint userID) :
     if (userID && !mainModel->select())
     {
         showError(mainModel->lastError());
-        return;
+        return false;
     }
+    return true;
+}
 
-    ui->userStatus->addItem("");
+
+
+void UserDialog::initIndexes()
+{
+    indexUserID = mainModel->fieldIndex("id");
+    indexUserStatus = mainModel->fieldIndex("UserStatus");
+    indexSelfAbility = mainModel->fieldIndex("SeflServiceAbility");
+    indexDisability = mainModel->fieldIndex("Disability");
+    indexDisabilityDate = mainModel->fieldIndex("DisabilityDate");
+    indexWorkCompetence = mainModel->fieldIndex("WorkCompetence");
+
+    indexBurthday = mainModel->fieldIndex("Birthday");
+    indexRegister = mainModel->fieldIndex("RegisterDate");
+    indexOccupation = mainModel->fieldIndex("OccupancyDate");
+    indexLeave = mainModel->fieldIndex("LeaveDate");
+    indexPassportSeria = mainModel->fieldIndex("PassportSeria");
+    indexPassportNumber = mainModel->fieldIndex("PassportNumber");
+    indexProtocolDate = mainModel->fieldIndex("ProtocolDate");
+    indexExclusionDate = mainModel->fieldIndex("ExclusionDate");
+
+    indexIrapDate = mainModel->fieldIndex("IPRADate");
+    indexIrapNumber = mainModel->fieldIndex("IPRANumber");
+    indexIrapInfo= mainModel->fieldIndex("IPRAContent");
+}
+
+
+
+void UserDialog::initComboboxes()
+{
     ui->userStatus->addItems(getUserStatusList());
 
     QSqlTableModel *userSelfAbilityModel = mainModel->relationModel(indexSelfAbility);
@@ -77,25 +133,20 @@ UserDialog::UserDialog(QWidget *parent, uint userID) :
     ui->workCompetence->setModel(userWorkCompetenceModel);
     ui->workCompetence->setModelColumn(userWorkCompetenceModel->fieldIndex("title"));
     ui->workCompetence->setItemDelegate(new QSqlRelationalDelegate(this));
+}
 
 
+
+void UserDialog::initWidgetMapper(uint userID)
+{
     mainMapper = new QDataWidgetMapper();
     mainMapper->setModel(mainModel);
     mainMapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
     mainMapper->setOrientation(Qt::Horizontal);
     mainMapper->setItemDelegate(new QSqlRelationalDelegate(this));
 
-    indexBurthday = mainModel->fieldIndex("Birthday");
-    indexRegister = mainModel->fieldIndex("RegisterDate");
-    indexOccupation = mainModel->fieldIndex("OccupancyDate");
-    indexLeave = mainModel->fieldIndex("LeaveDate");
-    indexPassportSeria = mainModel->fieldIndex("PassportSeria");
-    indexPassportNumber = mainModel->fieldIndex("PassportNumber");
-    indexProtocolDate = mainModel->fieldIndex("ProtocolDate");
-    indexExclusionDate = mainModel->fieldIndex("ExclusionDate");
-
     // MAIN FOLDER
-    // LEFT COLUMN
+    // - LEFT COLUMN
     mainMapper->addMapping(ui->firstName, mainModel->fieldIndex("FirstName"));
     mainMapper->addMapping(ui->lastName, mainModel->fieldIndex("LastName"));
     mainMapper->addMapping(ui->middleName, mainModel->fieldIndex("MiddleName"));
@@ -105,7 +156,7 @@ UserDialog::UserDialog(QWidget *parent, uint userID) :
     mainMapper->addMapping(ui->contactUser, mainModel->fieldIndex("ContactUser"));
     mainMapper->addMapping(ui->additionalInfo, mainModel->fieldIndex("AdditionalInfo"));
 
-    // RIGHT COLUMN
+    // - RIGHT COLUMN
     mainMapper->addMapping(ui->passportSeria, indexPassportSeria);
     mainMapper->addMapping(ui->passportNumber, indexPassportNumber);
     mainMapper->addMapping(ui->passportIssue, mainModel->fieldIndex("PassportIssueDate"));
@@ -125,17 +176,19 @@ UserDialog::UserDialog(QWidget *parent, uint userID) :
     mainMapper->addMapping(ui->medInfoEdit, mainModel->fieldIndex("MedInfo"));
     mainMapper->addMapping(ui->selfAbility, indexSelfAbility);
     mainMapper->addMapping(ui->disability, indexDisability);
+    mainMapper->addMapping(ui->disabilityDate, indexDisabilityDate);
     mainMapper->addMapping(ui->workCompetence, indexWorkCompetence);
+    mainMapper->addMapping(ui->irapDate, indexIrapDate);
+    mainMapper->addMapping(ui->irapNumber, indexIrapNumber);
+    mainMapper->addMapping(ui->irapInfo, indexIrapInfo);
 
     // SOC FOLDER
     mainMapper->addMapping(ui->socInfoEdit, mainModel->fieldIndex("SocInfo"));
-
     mainMapper->addMapping(ui->userStatus, indexUserStatus);
-
 
     if (userID == 0)
     {
-        // For new user set Combobo
+        // For new user set Comboboxes
         mainModel->insertRow(0);
         ui->userStatus->setCurrentIndex(0);
         ui->selfAbility->setCurrentIndex(0);
@@ -148,23 +201,6 @@ UserDialog::UserDialog(QWidget *parent, uint userID) :
         ui->socAdd->setDisabled(true);
     }
     mainMapper->toFirst();
-
-    if (userID)
-    {
-        // Store last user status before change
-        lastStatusId = mainModel->record(0).value(indexUserStatus).toString();
-    }
-
-    ui->userIdL->setText(QVariant(userID).toString());
-
-    connect(ui->saveButton, SIGNAL(clicked(bool)),
-            this, SLOT(saveUser()));
-
-    connect(ui->removeButton, SIGNAL(clicked(bool)),
-            this, SLOT(removeUser()));
-
-    connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(initMedFolder(int)));
-    connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(initSocFolder(int)));
 }
 
 
@@ -270,6 +306,23 @@ void UserDialog::setNullEmptyData()
     if (ui->passportNumber->text().isEmpty())
     {
         mainModel->setData(mainModel->index(row, indexPassportNumber), QVariant(QVariant::Int));
+    }
+    if (ui->disabilityDate->text().isEmpty())
+    {
+        mainModel->setData(mainModel->index(row, indexDisabilityDate), QVariant());
+    }
+    // MED
+    if (ui->irapDate->date() == QDate(1900,1,1))
+    {
+        mainModel->setData(mainModel->index(row, indexIrapDate), QVariant());
+    }
+    if (ui->irapNumber->text().isEmpty())
+    {
+        mainModel->setData(mainModel->index(row, indexIrapNumber), QVariant());
+    }
+    if (ui->irapInfo->toPlainText().isEmpty())
+    {
+        mainModel->setData(mainModel->index(row, indexIrapInfo), QVariant());
     }
 }
 
@@ -382,10 +435,9 @@ void UserDialog::initMedFolder(int folderIndex)
     {
         return;
     }
-    QSqlDatabase db = QSqlDatabase::database("main");
+    QSqlDatabase db = SqlConnection::mainConnection();
     if (!db.isOpen())
     {
-        QMessageBox::critical(this, tr("Connecntion error"), tr("Database connection lost"));
         return;
     }
 
@@ -427,6 +479,10 @@ void UserDialog::initMedFolder(int folderIndex)
     ui->medDocumentsList->setColumnHidden(indexId, true);
     ui->medDocumentsList->setColumnHidden(indexDocType, true);
     ui->medDocumentsList->setColumnHidden(indexDocUserID, true);
+    ui->medDocumentsList->resizeColumnToContents(indexDocName);
+    ui->medDocumentsList->resizeColumnToContents(medModel->fieldIndex("register_date"));
+    ui->medDocumentsList->setColumnWidth(medModel->fieldIndex("description"), 350);
+    ui->medDocumentsList->setColumnWidth(medModel->fieldIndex("comment"), 350);
 
     connect(ui->medAdd, SIGNAL(clicked(bool)), this, SLOT(addMedRow()));
     connect(ui->medRemove, SIGNAL(clicked(bool)), this, SLOT(removeMedDocument()));
@@ -487,10 +543,9 @@ void UserDialog::removeMedDocument()
 
 void UserDialog::addUserInQueue()
 {
-    QSqlDatabase db = QSqlDatabase::database("main");
+    QSqlDatabase db = SqlConnection::mainConnection();
     if (!db.isOpen())
     {
-        QMessageBox::critical(this, tr("Connecntion error"), tr("Database connection lost"));
         return;
     }
 
@@ -528,10 +583,9 @@ void UserDialog::addUserInQueue()
 
 void UserDialog::removeUserFromQueue()
 {
-    QSqlDatabase db = QSqlDatabase::database("main");
+    QSqlDatabase db = SqlConnection::mainConnection();
     if (!db.isOpen())
     {
-        QMessageBox::critical(this, tr("Connecntion error"), tr("Database connection lost"));
         return;
     }
 

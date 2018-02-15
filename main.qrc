@@ -3,5 +3,18 @@
         <file>translations/citizen_ru.qm</file>
         <file>translations/qtbase_ru.qm</file>
         <file>translations/qthelp_ru.qm</file>
+        <file>main.cpp</file>
+        <file>mainwindow.cpp</file>
+        <file>mainwindow.h</file>
+        <file>searchform.cpp</file>
+        <file>searchform.h</file>
+        <file>userdialog.cpp</file>
+        <file>userdialog.h</file>
+        <file>userqueueform.cpp</file>
+        <file>userqueueform.h</file>
+        <file>images/ic_arrow_downward_black_24px.svg</file>
+        <file>images/ic_arrow_upward_black_24px.svg</file>
+        <file>images/ic_looks_one_black_24px.svg</file>
+        <file>images/ic_print_black_24px.svg</file>
     </qresource>
 </RCC>

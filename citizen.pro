@@ -34,7 +34,8 @@ HEADERS += \
 		mainwindow.h \
 	userdialog.h \
     searchform.h \
-    userqueueform.h
+    userqueueform.h \
+    sqlconnection.h
 
 FORMS += \
 		mainwindow.ui \

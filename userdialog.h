@@ -48,14 +48,24 @@ protected:
     int indexExclusionDate;
     int indexSelfAbility;
     int indexDisability;
+    int indexDisabilityDate;
     int indexWorkCompetence;
 
     // med soc folder indexes
     int indexDocName;
     int indexDocType;
     int indexDocUserID;
+    int indexIrapNumber;
+    int indexIrapDate;
+    int indexIrapInfo;
 
     QString lastStatusId;
+
+    // inital on create
+    bool initMainModel(uint userID);
+    void initIndexes();
+    void initComboboxes();
+    void initWidgetMapper(uint userID);
 
     void showError(const QSqlError &err);
     void trimInput(QLineEdit *edit);
@@ -70,6 +80,7 @@ protected:
 protected slots:
     void saveUser();
     void removeUser();
+    // lazy init for folders
     void initMedFolder(int folderIndex);
     void initSocFolder(int folderIndex);
 

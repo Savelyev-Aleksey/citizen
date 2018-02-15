@@ -9,12 +9,12 @@
         <translation>Очередь граждан</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="26"/>
+        <location filename="../mainwindow.cpp" line="27"/>
         <source>Search</source>
         <translation>Поиск</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="27"/>
+        <location filename="../mainwindow.cpp" line="28"/>
         <source>Queue</source>
         <translation>Очередь</translation>
     </message>
@@ -22,30 +22,30 @@
 <context>
     <name>QMessageBox</name>
     <message>
-        <location filename="../mainwindow.cpp" line="44"/>
-        <location filename="../mainwindow.cpp" line="69"/>
+        <location filename="../sqlconnection.h" line="60"/>
+        <location filename="../sqlconnection.h" line="85"/>
         <source>Database</source>
         <translation>База данных</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="45"/>
+        <location filename="../sqlconnection.h" line="61"/>
         <source>Can&apos;t load database. Driver not available. Find: %1</source>
         <translation>Невозможно загрузить базу данных. Драйвер недоступен. Найдены: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="55"/>
+        <location filename="../sqlconnection.h" line="71"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="56"/>
+        <location filename="../sqlconnection.h" line="72"/>
         <source>Can&apos;t load connection.ini file</source>
         <translation>Невозможно загрузить файл connection.ini</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="70"/>
-        <source>Can&apos;t open connection with database. Check localhost connection.</source>
-        <translation>Невозможно открыть соединение с базой данных. Проверьте локальное соединение.</translation>
+        <location filename="../sqlconnection.h" line="86"/>
+        <source>Can&apos;t open connection with database. Check localhost connection: %1</source>
+        <translation>Невозможно открыть соединение с базой данных. Проверьте локльные настройки соединения: %1</translation>
     </message>
 </context>
 <context>
@@ -62,13 +62,13 @@
     </message>
     <message>
         <location filename="../searchform.ui" line="26"/>
-        <location filename="../searchform.cpp" line="43"/>
+        <location filename="../searchform.cpp" line="51"/>
         <source>Last name</source>
         <translation>Фамилия</translation>
     </message>
     <message>
         <location filename="../searchform.ui" line="33"/>
-        <location filename="../searchform.cpp" line="44"/>
+        <location filename="../searchform.cpp" line="52"/>
         <source>Middle name</source>
         <translation>Отчество</translation>
     </message>
@@ -78,12 +78,8 @@
         <translation>Статус</translation>
     </message>
     <message>
-        <source>Status</source>
-        <translation type="vanished">Статус</translation>
-    </message>
-    <message>
         <location filename="../searchform.ui" line="60"/>
-        <location filename="../searchform.cpp" line="42"/>
+        <location filename="../searchform.cpp" line="50"/>
         <source>First name</source>
         <translation>Имя</translation>
     </message>
@@ -93,24 +89,8 @@
         <translation>Очистить</translation>
     </message>
     <message>
-        <source>All</source>
-        <translation type="vanished">Все</translation>
-    </message>
-    <message>
-        <source>In queue</source>
-        <translation type="vanished">В очереди</translation>
-    </message>
-    <message>
-        <source>Accepted</source>
-        <translation type="vanished">На обслуживании</translation>
-    </message>
-    <message>
-        <source>Leave</source>
-        <translation type="vanished">Покинул</translation>
-    </message>
-    <message>
         <location filename="../searchform.ui" line="115"/>
-        <location filename="../searchform.cpp" line="45"/>
+        <location filename="../searchform.cpp" line="53"/>
         <source>Birthday</source>
         <translation>Дата рождения</translation>
     </message>
@@ -125,90 +105,24 @@
         <translation>Новый гражданин</translation>
     </message>
     <message>
-        <location filename="../searchform.cpp" line="46"/>
+        <location filename="../searchform.cpp" line="49"/>
+        <source>Card number</source>
+        <translation>№ карточки</translation>
+    </message>
+    <message>
+        <location filename="../searchform.cpp" line="54"/>
         <source>Register date</source>
         <translation>Дата регистрации</translation>
     </message>
     <message>
-        <location filename="../searchform.cpp" line="47"/>
+        <location filename="../searchform.cpp" line="55"/>
         <source>User status</source>
         <translation>Статус</translation>
     </message>
     <message>
-        <location filename="../searchform.cpp" line="175"/>
+        <location filename="../searchform.cpp" line="177"/>
         <source>Found: %1</source>
         <translation>Найдено: %1</translation>
-    </message>
-</context>
-<context>
-    <name>UserCard</name>
-    <message>
-        <source>Client card</source>
-        <translation type="vanished">Карточка клиента</translation>
-    </message>
-    <message>
-        <source>Main</source>
-        <translation type="vanished">Основная</translation>
-    </message>
-    <message>
-        <source>Last name</source>
-        <translation type="vanished">Фамилия</translation>
-    </message>
-    <message>
-        <source>#</source>
-        <translation type="vanished">№</translation>
-    </message>
-    <message>
-        <source>Card #</source>
-        <translation type="vanished">№ карточки</translation>
-    </message>
-    <message>
-        <source>Passport</source>
-        <translation type="vanished">Паспорт</translation>
-    </message>
-    <message>
-        <source>Birthday</source>
-        <translation type="vanished">Дата рождения</translation>
-    </message>
-    <message>
-        <source>Issue department</source>
-        <translation type="vanished">Кем выдан</translation>
-    </message>
-    <message>
-        <source>Sender department</source>
-        <translation type="vanished">Организация</translation>
-    </message>
-    <message>
-        <source>Current place</source>
-        <translation type="vanished">Текущее место</translation>
-    </message>
-    <message>
-        <source>Contact user</source>
-        <translation type="vanished">Контактное лицо</translation>
-    </message>
-    <message>
-        <source>Firts name</source>
-        <translation type="vanished">Имя</translation>
-    </message>
-    <message>
-        <source>Issue date</source>
-        <translation type="vanished">Дата выдачи</translation>
-    </message>
-    <message>
-        <source>Middle name</source>
-        <translation type="vanished">Отчество</translation>
-    </message>
-    <message>
-        <source>Additional info</source>
-        <translation type="vanished">Дополнительная информация</translation>
-    </message>
-    <message>
-        <source>Medicine</source>
-        <translation type="vanished">Медицинская</translation>
-    </message>
-    <message>
-        <source>Social</source>
-        <translation type="vanished">Социальная</translation>
     </message>
 </context>
 <context>
@@ -229,45 +143,9 @@
         <translation>Уполномоченный орган, направивший гражданина</translation>
     </message>
     <message>
-        <source>Register date</source>
-        <translation type="vanished">Дата регистрации</translation>
-    </message>
-    <message>
-        <source>Client status</source>
-        <translation type="vanished">Статус клиента</translation>
-    </message>
-    <message>
-        <source>Occupation date</source>
-        <translation type="vanished">Дата заселения</translation>
-    </message>
-    <message>
         <location filename="../userdialog.ui" line="37"/>
         <source>Save</source>
         <translation>Сохранить</translation>
-    </message>
-    <message>
-        <source>Reset</source>
-        <translation type="vanished">Вернуть данные</translation>
-    </message>
-    <message>
-        <source>All</source>
-        <translation type="vanished">Все</translation>
-    </message>
-    <message>
-        <source>In queue</source>
-        <translation type="vanished">В очереди</translation>
-    </message>
-    <message>
-        <source>Accepted</source>
-        <translation type="vanished">На обслуживании</translation>
-    </message>
-    <message>
-        <source>Leave</source>
-        <translation type="vanished">Покинул</translation>
-    </message>
-    <message>
-        <source>Last name</source>
-        <translation type="vanished">Фамилия</translation>
     </message>
     <message>
         <location filename="../userdialog.ui" line="419"/>
@@ -340,14 +218,6 @@
         <translation>№ карточки</translation>
     </message>
     <message>
-        <source>Passport</source>
-        <translation type="vanished">Паспорт</translation>
-    </message>
-    <message>
-        <source>Birthday</source>
-        <translation type="vanished">Дата рождения</translation>
-    </message>
-    <message>
         <location filename="../userdialog.ui" line="494"/>
         <source>Commission protocol</source>
         <translation>Протокол комиссии</translation>
@@ -363,18 +233,34 @@
         <translation>Дата исключения</translation>
     </message>
     <message>
-        <location filename="../userdialog.ui" line="691"/>
+        <location filename="../userdialog.ui" line="708"/>
+        <source>Individual Rehabilitation and Adaptation Program</source>
+        <translation>Индивидуальная Программа Реабилитации и Адаптации</translation>
+    </message>
+    <message>
+        <location filename="../userdialog.ui" line="711"/>
+        <source>IRAP indicators</source>
+        <translation>Показатели ИПРА</translation>
+    </message>
+    <message>
+        <location filename="../userdialog.ui" line="717"/>
+        <source># IRAP</source>
+        <translation>№ ИПРА</translation>
+    </message>
+    <message>
+        <location filename="../userdialog.ui" line="727"/>
+        <source>IRAP date</source>
+        <translation>Дата ИПРА</translation>
+    </message>
+    <message>
+        <location filename="../userdialog.ui" line="761"/>
         <source>Social documents</source>
         <translation>Социальные документы</translation>
     </message>
     <message>
-        <location filename="../userdialog.ui" line="737"/>
+        <location filename="../userdialog.ui" line="807"/>
         <source>Social information</source>
         <translation>Социальная информация</translation>
-    </message>
-    <message>
-        <source>Issue department</source>
-        <translation type="vanished">Кем выдан</translation>
     </message>
     <message>
         <location filename="../userdialog.ui" line="129"/>
@@ -390,18 +276,6 @@
         <location filename="../userdialog.ui" line="175"/>
         <source>Contact user</source>
         <translation>Контактное лицо</translation>
-    </message>
-    <message>
-        <source>Firts name</source>
-        <translation type="vanished">Имя</translation>
-    </message>
-    <message>
-        <source>Issue date</source>
-        <translation type="vanished">Дата выдачи</translation>
-    </message>
-    <message>
-        <source>Middle name</source>
-        <translation type="vanished">Отчество</translation>
     </message>
     <message>
         <location filename="../userdialog.ui" line="287"/>
@@ -424,127 +298,121 @@
         <translation>Медицинская</translation>
     </message>
     <message>
-        <location filename="../userdialog.ui" line="557"/>
+        <location filename="../userdialog.ui" line="603"/>
+        <source>Disability date</source>
+        <translation>Действительна до</translation>
+    </message>
+    <message>
+        <location filename="../userdialog.ui" line="662"/>
         <source>Medicine documents</source>
         <translation>Медицинские документы</translation>
     </message>
     <message>
-        <location filename="../userdialog.ui" line="581"/>
-        <location filename="../userdialog.ui" line="715"/>
+        <location filename="../userdialog.ui" line="686"/>
+        <location filename="../userdialog.ui" line="785"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="../userdialog.ui" line="591"/>
-        <location filename="../userdialog.ui" line="725"/>
+        <location filename="../userdialog.ui" line="696"/>
+        <location filename="../userdialog.ui" line="795"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../userdialog.ui" line="603"/>
+        <location filename="../userdialog.ui" line="557"/>
         <source>Medicine information</source>
         <translation>Медицинская информация</translation>
     </message>
     <message>
-        <location filename="../userdialog.ui" line="616"/>
+        <location filename="../userdialog.ui" line="563"/>
         <source>Self-ability</source>
         <translation>Утрата самообслуживания</translation>
     </message>
     <message>
-        <location filename="../userdialog.ui" line="629"/>
+        <location filename="../userdialog.ui" line="583"/>
         <source>Disability</source>
         <translation>Инвалидность</translation>
     </message>
     <message>
-        <location filename="../userdialog.ui" line="642"/>
+        <location filename="../userdialog.ui" line="620"/>
         <source>Work compenece</source>
         <translation>Дееспособность</translation>
     </message>
     <message>
-        <location filename="../userdialog.ui" line="685"/>
+        <location filename="../userdialog.ui" line="755"/>
         <source>Social</source>
         <translation>Социальная</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="29"/>
-        <location filename="../userdialog.cpp" line="383"/>
-        <location filename="../userdialog.cpp" line="442"/>
-        <location filename="../userdialog.cpp" line="487"/>
-        <location filename="../userdialog.cpp" line="528"/>
+        <location filename="../userdialog.cpp" line="501"/>
         <source>Connecntion error</source>
         <translation>Ошибка соединения</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="29"/>
-        <location filename="../userdialog.cpp" line="383"/>
-        <location filename="../userdialog.cpp" line="442"/>
-        <location filename="../userdialog.cpp" line="487"/>
-        <location filename="../userdialog.cpp" line="528"/>
+        <location filename="../userdialog.cpp" line="501"/>
         <source>Database connection lost</source>
         <translation>Потеряно соединение с базой данных</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="196"/>
+        <location filename="../userdialog.cpp" line="234"/>
         <source>Error in connection</source>
         <translation>Ошибка в соединении</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="197"/>
+        <location filename="../userdialog.cpp" line="235"/>
         <source>Error initializing database: </source>
         <translation>Ошибка инициализации базы данных: </translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="408"/>
-        <source>category</source>
-        <translation>категория</translation>
-    </message>
-    <message>
-        <location filename="../userdialog.cpp" line="409"/>
+        <location filename="../userdialog.cpp" line="468"/>
         <source>name</source>
         <translation>имя</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="410"/>
+        <location filename="../userdialog.cpp" line="469"/>
         <source>number</source>
         <translation>номер</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="411"/>
+        <location filename="../userdialog.cpp" line="470"/>
         <source>register date</source>
         <translation>дата регистрации</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="412"/>
+        <location filename="../userdialog.cpp" line="471"/>
         <source>expire date</source>
         <translation>Дата действия</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="413"/>
+        <location filename="../userdialog.cpp" line="472"/>
         <source>description</source>
         <translation>описание</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="414"/>
+        <location filename="../userdialog.cpp" line="473"/>
         <source>comment</source>
         <translation>коментарий</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="566"/>
+        <location filename="../userdialog.cpp" line="357"/>
+        <location filename="../userdialog.cpp" line="358"/>
+        <location filename="../userdialog.cpp" line="619"/>
         <source>in_queue</source>
         <translation>В очереди</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="567"/>
+        <location filename="../userdialog.cpp" line="620"/>
         <source>excluded</source>
         <translation>Исключен</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="568"/>
+        <location filename="../userdialog.cpp" line="621"/>
         <source>accepted</source>
         <translation>Принят</translation>
     </message>
     <message>
-        <location filename="../userdialog.cpp" line="569"/>
+        <location filename="../userdialog.cpp" line="622"/>
         <source>leave</source>
         <translation>Выбыл</translation>
     </message>
@@ -557,21 +425,66 @@
         <translation>Форма</translation>
     </message>
     <message>
-        <location filename="../userqueueform.ui" line="22"/>
-        <location filename="../userqueueform.ui" line="29"/>
-        <location filename="../userqueueform.ui" line="36"/>
-        <source>...</source>
-        <translation>...</translation>
+        <location filename="../userqueueform.cpp" line="34"/>
+        <source>Queue</source>
+        <translation>Очередь</translation>
     </message>
     <message>
-        <location filename="../userqueueform.cpp" line="18"/>
+        <location filename="../userqueueform.cpp" line="35"/>
+        <source>Last name</source>
+        <translation>Фамилия</translation>
+    </message>
+    <message>
+        <location filename="../userqueueform.cpp" line="36"/>
+        <source>First name</source>
+        <translation>Имя</translation>
+    </message>
+    <message>
+        <location filename="../userqueueform.cpp" line="37"/>
+        <source>Middle name</source>
+        <translation>Отчество</translation>
+    </message>
+    <message>
+        <location filename="../userqueueform.cpp" line="38"/>
+        <source>Birthday</source>
+        <translation>Дата рождения</translation>
+    </message>
+    <message>
+        <location filename="../userqueueform.cpp" line="39"/>
+        <source>Register date</source>
+        <translation>Дата регистрации</translation>
+    </message>
+    <message>
+        <location filename="../userqueueform.cpp" line="40"/>
+        <source>User status</source>
+        <translation>Статус</translation>
+    </message>
+    <message>
+        <location filename="../userqueueform.cpp" line="120"/>
+        <location filename="../userqueueform.cpp" line="155"/>
+        <location filename="../userqueueform.cpp" line="191"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="../userqueueform.cpp" line="120"/>
+        <location filename="../userqueueform.cpp" line="155"/>
+        <location filename="../userqueueform.cpp" line="191"/>
+        <source>exec error: %1</source>
+        <translation>ошибка исполнения: %1</translation>
+    </message>
+</context>
+<context>
+    <name>connection</name>
+    <message>
+        <location filename="../sqlconnection.h" line="30"/>
         <source>Connecntion error</source>
         <translation>Ошибка соединения</translation>
     </message>
     <message>
-        <location filename="../userqueueform.cpp" line="18"/>
-        <source>Database connection lost</source>
-        <translation>Потеряно соединение с базой данных</translation>
+        <location filename="../sqlconnection.h" line="31"/>
+        <source>Database connection lost: %1</source>
+        <translation>Соединение с базой данных потеряно: %1</translation>
     </message>
 </context>
 </TS>

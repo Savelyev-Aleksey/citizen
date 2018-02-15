@@ -78,6 +78,7 @@ CREATE TABLE `user_main` (
 	`SocInfo` TEXT NULL,
 	`SeflServiceAbility` VARCHAR(50) NULL DEFAULT NULL,
 	`Disability` VARCHAR(50) NULL DEFAULT NULL,
+	`DisabilityDate` VARCHAR(255) NULL DEFAULT NULL,
 	`WorkCompetence` VARCHAR(50) NULL DEFAULT NULL,
 	`CommissionProtocol` VARCHAR(100) NULL DEFAULT NULL,
 	`ProtocolDate` DATE NULL DEFAULT NULL,

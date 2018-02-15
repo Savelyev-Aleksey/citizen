@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QMainWindow>
 
+#include "sqlconnection.h"
 #include "searchform.h"
 #include "ui_searchform.h"
 #include "userdialog.h"
@@ -18,7 +19,11 @@ SearchForm::SearchForm(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QSqlDatabase db = QSqlDatabase::database("main");
+    QSqlDatabase db = SqlConnection::mainConnection();
+    if (!db.isOpen())
+    {
+        return;
+    }
 
     searchModel = new QSqlQueryModel(this);
     searchModel->setQuery(getQuery(QString("")), db);
@@ -41,6 +46,7 @@ SearchForm::SearchForm(QWidget *parent) :
     ui->statusCombo->addItems(UserDialog::getUserStatusList());
 
 
+    searchModel->setHeaderData(indexId, Qt::Horizontal, tr("Card number"));
     searchModel->setHeaderData(indexFname, Qt::Horizontal, tr("First name"));
     searchModel->setHeaderData(indexLname, Qt::Horizontal, tr("Last name"));
     searchModel->setHeaderData(indexMname, Qt::Horizontal, tr("Middle name"));
@@ -152,7 +158,11 @@ void SearchForm::findUsers()
         list.push_front(QString("MiddleName like \"%1%\"").arg(mname));
     }
 
-    QSqlDatabase db = QSqlDatabase::database("main");
+    QSqlDatabase db = SqlConnection::mainConnection();
+    if (!db.isOpen())
+    {
+        return;
+    }
 
     searchModel->setQuery(getQuery(list.join(" AND ")), db);
     ui->searchView->resizeColumnsToContents();

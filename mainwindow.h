@@ -7,6 +7,8 @@ namespace Ui {
 class MainWindow;
 }
 
+class UserQueueForm;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -18,7 +20,12 @@ public:
 private:
     Ui::MainWindow *ui;
 
+    UserQueueForm *queueForm;
+
     bool initConnection() const;
+
+private slots:
+    void tabChanged(int tabIndex);
 };
 
 #endif // MAINWINDOW_H
