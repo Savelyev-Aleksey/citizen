@@ -10,6 +10,8 @@
 #include <QRegularExpression>
 #include <QStringList>
 #include <QCompleter>
+#include <QDir>
+#include <ActiveQt/QAxObject>
 
 #include "sqlconnection.h"
 #include "userdialog.h"
@@ -624,4 +626,54 @@ QStringList UserDialog::getUserStatusList()
          << tr("accepted")
          << tr("leave");
     return list;
+}
+
+
+
+
+void UserDialog::printOsonAnswer()
+{
+    //создаем экземпляр Word
+    QAxObject *word = new QAxObject("Word.Application", nullptr);
+    if (word == nullptr)
+    {
+        return;
+    }
+    //получаем коллекцию документов
+    QAxObject *documents = word->querySubObject("Documents");
+
+    QVariant filename(QDir::currentPath() + "/templates/template.dotx");
+    QVariant confirmconversions(false);
+    QVariant readonly(true);
+    QVariant addtorecentfiles(false);
+    QVariant passworddocument("");
+    QVariant passwordtemplate("");
+    QVariant revert(false);
+    //добавляем свой документ в коллекцию на основе Шаблон.dot
+    QAxObject *newDocument = documents->querySubObject("Open(const QVariant&, const QVariant&, "
+        "const QVariant&, const QVariant&, const QVariant&, const QVariant&,const QVariant&)",
+        filename, confirmconversions, readonly, addtorecentfiles, passworddocument,
+        passwordtemplate, revert);
+
+    if (newDocument == nullptr)
+    {
+        return;
+    }
+    //Получаем коллекцию закладок
+    QAxObject *bookmarks = newDocument->querySubObject("Bookmarks()");
+    //Конкретная закладка
+    QAxObject *bookmark = bookmarks->querySubObject("Item(Qstring)", "FirstName");
+    QAxObject *range = bookmark->querySubObject("Range");
+    range->dynamicCall("Text", "имя");
+
+    bookmark = bookmarks->querySubObject("Item(Qstring)", "LastName");
+    range = bookmark->querySubObject("Range");
+    range->dynamicCall("Text", "фам");
+
+    bookmark = bookmarks->querySubObject("Item(Qstring)", "MiddleName");
+    range = bookmark->querySubObject("Range");
+    range->dynamicCall("Text", "отч");
+
+    // Show word document
+    word->dynamicCall("Visible", true);
 }

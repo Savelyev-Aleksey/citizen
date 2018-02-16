@@ -88,6 +88,7 @@ protected slots:
     void addSocRow();
     void enableMedRemoveButton();
     void removeMedDocument();
+    void printOsonAnswer();
 
 private:
     Ui::UserDialog *ui;

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core sql gui
+QT       += core sql gui axcontainer
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,21 +27,31 @@ SOURCES += \
 		main.cpp \
 		mainwindow.cpp \
 	userdialog.cpp \
+	searchform.cpp \
+	userqueueform.cpp \
+    main.cpp \
+    mainwindow.cpp \
     searchform.cpp \
+    userdialog.cpp \
     userqueueform.cpp
 
 HEADERS += \
 		mainwindow.h \
 	userdialog.h \
+	searchform.h \
+	userqueueform.h \
+	sqlconnection.h \
+    mainwindow.h \
     searchform.h \
-    userqueueform.h \
-    sqlconnection.h
+    sqlconnection.h \
+    userdialog.h \
+    userqueueform.h
 
 FORMS += \
 		mainwindow.ui \
 	userdialog.ui \
-    searchform.ui \
-    userqueueform.ui
+	searchform.ui \
+	userqueueform.ui
 
 RESOURCES += \
 	main.qrc
@@ -54,4 +64,6 @@ DISTFILES += \
 	translations/citizen_ru.ts \
 	translations/citizen_ru.qm \
 	translations/qtbase_ru.qm \
-	translations/qthelp_ru.qm
+	translations/qthelp_ru.qm \
+    templates/queue_list.dotx \
+    templates/template.dotx

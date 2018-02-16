@@ -4,6 +4,10 @@
 #include <QSqlRecord>
 #include <QMessageBox>
 #include <QString>
+#include <QVariant>
+#include <QDate>
+#include <QDir>
+#include <ActiveQt/QAxObject>
 
 #include "sqlconnection.h"
 #include "userdialog.h"
@@ -200,7 +204,77 @@ void UserQueueForm::moveQueueFirst()
 
 void UserQueueForm::printQueue()
 {
+    //создаем экземпляр Word
+    QAxObject *word = new QAxObject("Word.Application", nullptr);
+    if (word == nullptr)
+    {
+        return;
+    }
+    //получаем коллекцию документов
+    QAxObject *documents = word->querySubObject("Documents");
 
+    QVariant filename(QDir::currentPath() + "/templates/queue_list.dotx");
+    QVariant confirmconversions(false);
+    QVariant readonly(true);
+    QVariant addtorecentfiles(false);
+    QVariant passworddocument("");
+    QVariant passwordtemplate("");
+    QVariant revert(false);
+    //добавляем свой документ в коллекцию на основе Шаблон.dot
+    QAxObject *newDocument = documents->querySubObject("Open(const QVariant&, const QVariant&, "
+        "const QVariant&, const QVariant&, const QVariant&, const QVariant&,const QVariant&)",
+        filename, confirmconversions, readonly, addtorecentfiles, passworddocument,
+        passwordtemplate, revert);
+
+    if (newDocument == nullptr)
+    {
+        return;
+    }
+    //Получаем коллекцию закладок
+    QAxObject *bookmarks = newDocument->querySubObject("Bookmarks()");
+    //Конкретная закладка
+    QAxObject *bookmark = bookmarks->querySubObject("Item(Qstring)", "queue");
+    QAxObject *range = bookmark->querySubObject("Range");
+
+    QAxObject *tables = range->querySubObject("Tables(1)");
+    QAxObject *row = range->querySubObject("Rows()");
+    QDate date;
+    QAxObject *cell, *cellR;
+    QString value;
+
+    for(int i = queueModel->rowCount() - 1; i >=0 ; --i)
+    {
+        row->dynamicCall("Add()");
+        // id
+        value = queueModel->data(queueModel->index(i, 0)).toString();
+        cell = tables->querySubObject("Cell(Row, Column)", 2, 1);
+        cellR = cell->querySubObject("Range()");
+        cellR->dynamicCall("InsertAfter(Text)", value);
+        // Last name
+        value = queueModel->data(queueModel->index(i, 2)).toString();
+        cell = tables->querySubObject("Cell(Row, Column)", 2, 2);
+        cellR = cell->querySubObject("Range()");
+        cellR->dynamicCall("InsertAfter(Text)", value);
+        // First Name
+        value = queueModel->data(queueModel->index(i, 3)).toString();
+        cell = tables->querySubObject("Cell(Row, Column)", 2, 3);
+        cellR = cell->querySubObject("Range()");
+        cellR->dynamicCall("InsertAfter(Text)", value);
+        // Middle Name
+        value = queueModel->data(queueModel->index(i, 4)).toString();
+        cell = tables->querySubObject("Cell(Row, Column)", 2, 4);
+        cellR = cell->querySubObject("Range()");
+        cellR->dynamicCall("InsertAfter(Text)", value);
+        // Birthday
+        date = queueModel->data(queueModel->index(i, 5)).toDate();
+        cell = tables->querySubObject("Cell(Row, Column)", 2, 5);
+        cellR = cell->querySubObject("Range()");
+        cellR->dynamicCall("InsertAfter(Text)", date.toString(Qt::SystemLocaleShortDate));
+    }
+
+
+    // Show word document
+    word->dynamicCall("Visible", true);
 }
 
 
