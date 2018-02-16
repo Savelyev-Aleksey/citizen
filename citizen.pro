@@ -28,24 +28,14 @@ SOURCES += \
 		mainwindow.cpp \
 	userdialog.cpp \
 	searchform.cpp \
-	userqueueform.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    searchform.cpp \
-    userdialog.cpp \
-    userqueueform.cpp
+	userqueueform.cpp
 
 HEADERS += \
 		mainwindow.h \
 	userdialog.h \
 	searchform.h \
 	userqueueform.h \
-	sqlconnection.h \
-    mainwindow.h \
-    searchform.h \
-    sqlconnection.h \
-    userdialog.h \
-    userqueueform.h
+	sqlconnection.h
 
 FORMS += \
 		mainwindow.ui \
@@ -65,5 +55,5 @@ DISTFILES += \
 	translations/citizen_ru.qm \
 	translations/qtbase_ru.qm \
 	translations/qthelp_ru.qm \
-    templates/queue_list.dotx \
-    templates/template.dotx
+	templates/queue_list.dotx \
+	templates/template.dotx

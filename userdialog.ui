@@ -53,6 +53,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="removeButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Remove user</string>
        </property>
@@ -774,7 +777,11 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QTableView" name="socDocumentsList"/>
+           <widget class="QTableView" name="socDocumentsList">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -793,6 +800,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="socAdd">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>Add</string>
               </property>
