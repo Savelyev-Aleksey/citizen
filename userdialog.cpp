@@ -560,8 +560,8 @@ void UserDialog::addUserInQueue()
 
     if (!userID)
     {
-        q.exec(QString("INSERT INTO user_queue SET queue_id = %1,"
-                       "user_id = (SELECT MAX(id) FROM user_main)").arg(queue_id));
+        q.exec(QString("INSERT INTO user_queue(queue_id, user_id) VALUES(%1,"
+                       "(SELECT MAX(id) FROM user_main))").arg(queue_id));
 
         QSqlError err = q.lastError();
         if (err.isValid())
@@ -571,8 +571,8 @@ void UserDialog::addUserInQueue()
     }
     else
     {
-        q.exec(QString("INSERT INTO user_queue SET queue_id = %1,"
-                       "user_id = %2").arg(queue_id).arg(userID));
+        q.exec(QString("INSERT INTO user_queue(queue_id, user_id) VALUES(%1, %2)").
+               arg(queue_id).arg(userID));
         QSqlError err = q.lastError();
         if (err.isValid())
         {

@@ -57,3 +57,5 @@ DISTFILES += \
 	translations/qthelp_ru.qm \
 	templates/queue_list.dotx \
 	templates/template.dotx
+
+CONFIG += qt

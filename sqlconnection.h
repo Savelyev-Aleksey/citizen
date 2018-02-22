@@ -82,9 +82,18 @@ public:
         db.setDatabaseName(settings.value("mysql/database").toString());
         if (!db.open())
         {
+            QString err = db.lastError().text();
+            db.close();
+            QSqlDatabase::removeDatabase("main");
+            QSqlDatabase sdb = QSqlDatabase::addDatabase("QSQLITE", "main");
+            sdb.setDatabaseName("database");
+            if (sdb.open())
+            {
+                return true;
+            }
             QMessageBox::critical(0, QMessageBox::tr("Database"),
                 QMessageBox::tr("Can't open connection with database. Check localhost connection: %1").
-                                  arg(db.lastError().text()),
+                                  arg(err),
                 QMessageBox::Cancel);
             return false;
         }
